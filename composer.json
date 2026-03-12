@@ -1,0 +1,14 @@
+{
+    "name": "raposonaumpegue/cadastro_e_listagem_de_produtos",
+    "autoload": {
+        "psr-4": {
+            "Raposonaumpegue\\CadastroEListagemDeProdutos\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dev.vinicius"
+        }
+    ],
+    "require": {}
+}
