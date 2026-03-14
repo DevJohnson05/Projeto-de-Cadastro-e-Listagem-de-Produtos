@@ -63,6 +63,15 @@ use app\models\products\ProductModel;
             header("Location: /listar-produtos");
             exit();
         }
+
+        public function delete($id) {
+            // Lógica para deletar um produto
+            $productModel = new ProductModel();
+            $productModel->Delete('produtos', $id);
+
+            header("Location: /listar-produtos");
+            exit();
+        }
     }
 
 ?>
