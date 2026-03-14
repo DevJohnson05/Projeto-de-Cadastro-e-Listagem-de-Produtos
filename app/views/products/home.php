@@ -31,7 +31,7 @@
        </div>
     </main>
     <footer class="bg-primary p-3 text-center fixed-bottom">
-        <p class="fst-italic text-light">Copyright &copy; 2024</p>
+        <p class="fst-italic text-light">Copyright &copy; 2026</p>
     </footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
