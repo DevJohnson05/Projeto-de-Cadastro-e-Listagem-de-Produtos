@@ -59,7 +59,9 @@
                 </div>
                 <button type="submit" class="btn btn-success">Cadastrar</button>
             </form>
+            <a href="/" class="btn btn-secondary mt-3">Voltar para a página inicial</a>
         </div>
+        
     </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 

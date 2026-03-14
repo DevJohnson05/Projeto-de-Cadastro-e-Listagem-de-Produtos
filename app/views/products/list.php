@@ -30,18 +30,24 @@
             </thead>
             <tbody>
                 <!-- Aqui você pode usar um loop para exibir os produtos dinamicamente -->
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <a href="/editar-produto/1" class="btn btn-sm btn-primary">Editar</a>
-                        <a href="/products/delete/1" class="btn btn-sm btn-danger">Excluir</a>
-                    </td>
-                </tr>
+               
+                <?php foreach ($products as $product): ?>
+                    <tr>
+                        <td><?= $product->id ?></td>
+                        <td><?= $product->nome ?></td>
+                        <td><?= $product->cod_produto ?></td>
+                        <td><?= $product->preco ?></td>
+                        <td>
+                            <a href="/editar-produto/<?= $product->id ?>" class="btn btn-sm btn-primary">Editar</a>
+                            <a href="/deletar-produto/<?= $product->id ?>" class="btn btn-sm btn-danger">Deletar</a>
+                        </td>
+                    </tr>     
+                <?php endforeach; ?>
+                 
             </tbody>
         </table>
+
+        <a href="/" class="btn btn-secondary ">Voltar para a página inicial</a>
     </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 

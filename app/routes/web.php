@@ -10,6 +10,7 @@
         ],
         'post' => [
             '/cadastrar-produto' => 'ProductController@postCreate',
+            '/editar-produto/{id}' => 'ProductController@postEdit'
         ],
     ];
 
