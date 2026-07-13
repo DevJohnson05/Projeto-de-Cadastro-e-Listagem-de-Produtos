@@ -1,0 +1,30 @@
+{% extends "master.html" %}
+
+{% block content %}
+    <header class="bg-primary p-4 mb-4 text-center fixed-top">
+        <h1>Sistema de Gerenciamento de Produtos</h1>
+    </header>
+    
+    <main style="margin-top: 120px; margin-bottom: 100px;">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col">
+                    <a href="/create-product" class="btn btn-primary">indicar entrada de profutos</a>
+                </div>
+                <div class="col">
+                    <a href="" class="btn btn-secondary">listar produtos</a>
+                </div>
+                <div class="col">
+                    <a href="/dashboard" class="btn btn-success">acessar dashboard</a>
+                </div>
+                <div class="col">
+                    <a href="" class="btn btn-danger">indicar saída de estoque</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-primary p-3 text-center fixed-bottom">
+        <p class="fst-italic text-light">Copyright &copy; 2026</p>
+    </footer>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "master.html" %}
+
+{% block content %}
+    <div class="card mt-5 p-3 rounded shadow">
+        <form action="/login" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" name="email" id="email" class="form-control bg-secondary-subtle">
+            </div>
+            <div class="mb-3">
+                <label for="password">password:</label>
+                <div class="input-group">
+                    <input type="password" name="password" id="password" class="form-control bg-secondary-subtle">
+                    <button type="button" class="btn btn-secondary rounded-bottom" id="btn-icon"><i class="bi bi-eye-fill" id="icon"></i></button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary rounded">Login</button>
+        </form>
+    </div>
+    <script src="./assets/js/auth/app-auth.js"></script>
+{% endblock %}

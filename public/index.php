@@ -1,20 +1,17 @@
 <?php
-require_once "../bootstrap.php";
+require_once(__DIR__.'/../vendor/autoload.php');
+use Slim\Factory\AppFactory;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Views\Twig;
 
-use app\core\Router;
+$app = AppFactory::create();
+require_once(__DIR__.'/../app/routes/web.php');
 
-    $rotas_get = $routes['get'];
-    $rotas_post = $routes['post'];
+$app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function(Request $request, Response $response) {
+    $twig = Twig::create(DIR_VIEWS);
+    $twig->render($response, 'http/404.html', ['message' => 'Route Not Found'])->withStatus(404);
+    return $response;
+});
 
-    $routes = new Router();
-
-    foreach ($rotas_get as $rota => $controller) {
-        $routes->add("get",$rota, $controller);
-    }
-    
-    foreach ($rotas_post as $rota => $controller) {
-        $routes->add("post",$rota, $controller);
-    }
-    
-    $routes->dispatch();
-
+$app->run();

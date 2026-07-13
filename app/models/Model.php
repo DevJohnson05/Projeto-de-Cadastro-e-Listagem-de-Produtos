@@ -1,55 +1,21 @@
 <?php 
-    namespace app\models;
+namespace app\models;
 
-    use app\core\Database;
+use PDO;
 
-    class Model
-    {
-        protected $db;
+class Model
+{
+    protected PDO $pdo;
 
-        public function __construct()
-        {
-            $this->db = new Database();
+    public function __construct() {
+        $conn = new ConnectionDB;
+        $conn->setConnectionDB([
+            'dbname' => 'sistemaDeCadastroElistagem',
+            'user' => 'estudante',
+            'password' => '2467'
+        ]);
+        if (!$this->pdo) {
+            $this->pdo = $conn->getConnectionDB();
         }
-
-       public function Find($table, $id)
-       {
-            $pdo = $this->db->getPdo();
-            $stmt = $pdo->prepare("SELECT * FROM $table WHERE id = :id");
-            $stmt->execute(['id' => $id]);
-            return $stmt->fetch(\PDO::FETCH_OBJ);
-       }
-
-        public function All($table)
-        {
-            $pdo = $this->db->getPdo();
-            $stmt = $pdo->query("SELECT * FROM $table");
-            return $stmt->fetchAll(\PDO::FETCH_OBJ);
-        }
-
-        public function Create($table, $data)
-        {
-            $pdo = $this->db->getPdo();
-            $columns = implode(", ", array_keys($data));
-            $placeholders = ":" . implode(", :", array_keys($data));
-            $stmt = $pdo->prepare("INSERT INTO $table ($columns) VALUES ($placeholders)");
-            return $stmt->execute($data);
-        }
-
-            public function Update($table, $id, $data)
-            {
-                $pdo = $this->db->getPdo();
-                $setClause = implode(", ", array_map(fn($key) => "$key = :$key", array_keys($data)));
-                $stmt = $pdo->prepare("UPDATE $table SET $setClause WHERE id = :id");
-                return $stmt->execute(array_merge($data, ['id' => $id]));
-            }
-
-            public function Delete($table, $id)
-            {
-                $pdo = $this->db->getPdo();
-                $stmt = $pdo->prepare("DELETE FROM $table WHERE id = :id");
-                return $stmt->execute(['id' => $id]);
-            }
-
     }
-?>
+}
