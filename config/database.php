@@ -21,6 +21,9 @@ $resolveEnv = static function (array $names, mixed $default = null): mixed {
 };
 
 $host = $resolveEnv(['DB_HOST', 'MYSQL_HOST'], '127.0.0.1');
+if ($host === 'localhost') {
+    $host = '127.0.0.1';
+}
 $user = $resolveEnv(['DB_USER', 'MYSQL_USER'], 'root');
 $password = $resolveEnv(['DB_PASSWORD', 'MYSQL_PASSWORD'], '');
 $dbname = $resolveEnv(['DB_NAME', 'MYSQL_DATABASE'], 'sistemaDeCadastroElistagem');
