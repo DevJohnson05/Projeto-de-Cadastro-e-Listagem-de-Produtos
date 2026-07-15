@@ -46,6 +46,21 @@ INSERT INTO `produtos` (id, nome, creat_at, quantidade, un_medida, cod_produto, 
 (2, 'Feijao Carioca Kicaldo', NULL, 8.00, 'UN', '002', NULL);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
+--
+-- Table structure for table `outflows`
+--
+
+DROP TABLE IF EXISTS `outflows`;
+CREATE TABLE `outflows` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
+  `quantidade` decimal(10,2) NOT NULL,
+  `observacao` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `outflows_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `produtos` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

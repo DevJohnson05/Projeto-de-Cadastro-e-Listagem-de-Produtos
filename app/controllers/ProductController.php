@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Psr\Http\Message\{ResponseInterface as Response, ServerRequestInterface as Request};
+use app\models\outflows\OutflowModel;
 use app\models\products\ProductModel;
 use app\service\ProductService;
 
@@ -144,14 +145,12 @@ class ProductController extends BaseController
             return $this->redirect($response, '/outflow');
         }
 
-        $history = $this->sessionService->getSessionData('outflows') ?? [];
-        $history[] = [
+        $outflowModel = new OutflowModel();
+        $outflowModel->create([
             'product_id' => $validated['product_id'],
             'quantidade' => $validated['quantidade'],
-            'date' => date('Y-m-d H:i:s'),
             'observacao' => $validated['observacao'],
-        ];
-        $this->sessionService->setSessionData('outflows', $history);
+        ]);
 
         return $this->redirect($response, '/dashboard');
     }

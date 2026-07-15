@@ -1,2 +1,11 @@
 ALTER TABLE produtos CHANGE COLUMN validade data_valid date DEFAULT NULL;
 ALTER TABLE produtos MODIFY COLUMN un_medida enum('KG','UN','PCT','FD','CX') DEFAULT NULL;
+
+CREATE TABLE IF NOT EXISTS outflows (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT NOT NULL,
+  quantidade DECIMAL(10,2) NOT NULL,
+  observacao VARCHAR(255) DEFAULT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES produtos(id) ON DELETE CASCADE
+);
