@@ -1,132 +1,152 @@
-# Cadastro e Listagem de Produtos v1.0
+# Cadastro e Listagem de Produtos
 
-Um sistema simples de gerenciamento de produtos desenvolvido em PHP usando arquitetura MVC (Model-View-Controller). Esta é a primeira versão do projeto, permitindo operações básicas de CRUD (Criar, Ler, Atualizar, Deletar) para produtos.
+Sistema de gestão de produtos em PHP com arquitetura MVC, utilizando **Slim Framework 4**, **Twig** e **MySQL**. Permite cadastrar, listar, editar, excluir produtos, registrar saídas e visualizar um dashboard com resumo do estoque.
 
 ## Funcionalidades
 
-- **Listar Produtos**: Visualizar todos os produtos cadastrados.
-- **Cadastrar Produto**: Adicionar novos produtos com nome, preço, código e unidade de medida.
-- **Editar Produto**: Modificar informações de produtos existentes.
-- **Deletar Produto**: Remover produtos do sistema.
+- Autenticação (login/cadastro de usuário)
+- Cadastro de produtos (nome, código, quantidade, unidade de medida, validade)
+- Listagem de produtos com ações de editar/excluir
+- Edição de produtos com formulário preenchido
+- Exclusão de produtos
+- Registro de saída de produtos com validação de estoque
+- Dashboard com resumo de:
+  - Saídas por mês (armazenado em sessão)
+  - Produtos com estoque baixo (≤ 5 unidades)
+  - Produtos próximos da validade (próximos 30 dias)
+
+## Tecnologias
+
+- **PHP 8.x** com PDO e MySQL
+- **Slim Framework 4** (rotas, PSR-7/PSR-15)
+- **Twig** (templating)
+- **Bootstrap 5** + **Bootstrap Icons** (frontend)
+- **Docker Compose** (PHP-FPM, Nginx, MySQL, phpMyAdmin)
+- **Composer** (autoloading PSR-4)
+
+## Estrutura do projeto
+
+```
+app/
+  controllers/    # AuthController, ProductController, UserController
+  core/
+    database/     # Connection (PDO singleton), DAO, Entity, EntityManager
+  models/
+    products/     # ProductModel, ProductEntity
+    user/         # UserModel, UserEntity
+  routes/
+    web.php       # Definição de todas as rotas
+  service/        # AuthService, ProductService, SessionService
+  views/          # Templates Twig (auth, product, user)
+config/
+  database.php    # Configuração do banco via variáveis de ambiente
+database/
+  dump.sql        # Schema + seed data
+  migration.sql   # Script de migração (validade → data_valid)
+public/
+  assets/
+    css/          # Bootstrap CSS
+    js/
+      auth/       # app-auth.js (toggle senha), form.js (validação)
+      product/    # product-form.js, outflow-form.js
+    bootstrap-icons-1.13.1/
+  index.php       # Entry point
+tests/            # Testes funcionais básicos
+docker/           # Dockerfile, nginx config
+docker-compose.yml
+```
+
+## Requisitos
+
+- PHP 8.x com extensão `pdo_mysql`
+- Composer
+- MySQL 8.x
+- Docker (opcional, para ambiente containerizado)
+
+## Instalação (manual)
+
+```bash
+git clone https://github.com/raposonaumpegue/cadastro_e_listagem_de_produtos.git
+cd cadastro_e_listagem_de_produtos
+composer install
+```
+
+Configure o banco:
+
+```bash
+mysql -u root -p -e "CREATE DATABASE sistemaDeCadastroElistagem;"
+mysql -u root -p sistemaDeCadastroElistagem < database/dump.sql
+```
+
+Ajuste as credenciais em `.env` ou via variáveis de ambiente:
+
+```env
+DB_HOST=localhost
+DB_USER=estudante
+DB_PASSWORD=2467
+DB_NAME=sistemaDeCadastroElistagem
+```
+
+Inicie o servidor embutido do PHP:
+
+```bash
+php -S localhost:8000 -t public
+```
+
+Acesse `http://localhost:8000/`.
+
+## Instalação (Docker)
+
+```bash
+docker compose up -d
+```
+
+Serviços:
+- **App:** http://localhost:8000
+- **phpMyAdmin:** http://localhost:8081
+
+## Rotas
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| GET | `/` | Login |
+| POST | `/login` | Autenticar |
+| GET | `/register` | Cadastro de usuário |
+| POST | `/register` | Criar usuário |
+| GET | `/logout` | Sair |
+| GET | `/home` | Página inicial |
+| GET | `/dashboard` | Painel de controle |
+| GET | `/create-product` | Formulário de cadastro |
+| POST | `/register-product` | Salvar produto |
+| GET | `/list-products` | Listar produtos |
+| GET | `/edit-product/{id}` | Formulário de edição |
+| POST | `/update-product` | Atualizar produto |
+| GET | `/delete-product/{id}` | Excluir produto |
+| GET | `/outflow` | Formulário de saída |
+| POST | `/outflow` | Registrar saída |
+
+## Melhorias recentes
+
+- Coluna `validade` renomeada para `data_valid` (consistente com schema atual)
+- `un_medida` alterado para `ENUM('KG','UN','PCT','FD','CX')`
+- Validação frontend extraída para arquivos JS dedicados
+- Correção de caminhos relativos de assets (agora absolutos `/assets/...`)
+- Remoção de classes e arquivos não utilizados (ConnectionDB, ExceptionRota, ProductDao, Dump)
+- Limpeza de métodos mortos e código comentado
+- Reestilização dos formulários com Bootstrap + ícones
+- Dashboard com filtro de produtos próximos à validade
 
 ## Screenshots
 
-Aqui estão algumas capturas de tela do sistema:
+![Home](screenshots/homepage_NEW.png)
+![Login](screenshots/form_login_NEW.png)
+![Cadastro](screenshots/registerpage_NEW.png)
+![Criar produto](screenshots/form_create_NEW.png)
+![Listagem](screenshots/list_product_NEW.png)
+![Editar](screenshots/edit_product_NEW.png)
+![Saída](screenshots/outflow_product_NEW.png)
+![Dashboard](screenshots/dasahboard_NEW.png)
 
-- **Página Inicial**: ![Página Inicial](screenshots/home.png)
-- **Listagem de Produtos**: ![Listagem de Produtos](screenshots/list.png)
-- **Cadastrar Produto**: ![Cadastrar Produto](screenshots/create.png)
-- **Editar Produto**: ![Editar Produto](screenshots/edit.png)
+## Licença
 
-*Nota: As imagens devem ser adicionadas na pasta `screenshots/` do repositório.*
-
-## Tecnologias Utilizadas
-
-- **PHP**: Linguagem de programação principal.
-- **MySQL**: Banco de dados para armazenamento de dados.
-- **PDO**: Extensão PHP para acesso ao banco de dados.
-- **Composer**: Gerenciador de dependências para autoloading.
-
-## Pré-requisitos
-
-Antes de executar o projeto, certifique-se de ter instalado:
-
-- PHP 7.4 ou superior
-- MySQL 5.7 ou superior
-- Composer
-
-## Instalação
-
-1. **Clone o repositório**:
-   ```bash
-   git clone https://github.com/raposonaumpegue/cadastro_e_listagem_de_produtos.git
-   cd cadastro_e_listagem_de_produtos
-   ```
-
-2. **Instale as dependências**:
-   ```bash
-   composer install
-   ```
-
-3. **Configure o banco de dados**:
-   - Crie um banco de dados MySQL chamado `sistemaDeCadastroElistagem`.
-   - Execute o seguinte script SQL para criar a tabela de produtos:
-     ```sql
-     CREATE TABLE produtos (
-         id INT AUTO_INCREMENT PRIMARY KEY,
-         nome VARCHAR(255) NOT NULL,
-         preco DECIMAL(10, 2) NOT NULL,
-         cod_produto VARCHAR(100) UNIQUE NOT NULL,
-         un_medida VARCHAR(50) NOT NULL
-     );
-     ```
-   - Importe o dump do banco de dados (se disponível):
-     ```bash
-     mysql -u estudante -p2467 sistemaDeCadastroElistagem < database/dump.sql
-     ```
-     *Substitua `estudante` e `2467` pelas suas credenciais do MySQL, se diferentes.*
-
-4. **Configure as credenciais do banco**:
-   - Edite o arquivo `config.php` e ajuste as configurações do banco de dados conforme necessário.
-
-5. **Inicie o servidor**:
-   - Navegue até a pasta `public` e execute:
-     ```bash
-     php -S localhost:8000
-     ```
-   - Ou configure um servidor web (como Apache ou Nginx) para apontar para a pasta `public`.
-
-## Uso
-
-Após a instalação, acesse `http://localhost:8000` no seu navegador.
-
-- **Página Inicial**: `http://localhost:8000/`
-- **Listar Produtos**: `http://localhost:8000/listar-produtos`
-- **Cadastrar Produto**: `http://localhost:8000/cadastrar-produto`
-- **Editar Produto**: `http://localhost:8000/editar-produto/{id}`
-- **Deletar Produto**: `http://localhost:8000/deletar-produto/{id}`
-
-## Estrutura do Projeto
-
-```
-cadastro_e_listagem_de_produtos/
-├── app/
-│   ├── controllers/
-│   │   ├── HomeController.php
-│   │   └── ProductController.php
-│   ├── core/
-│   │   ├── Controller.php
-│   │   ├── Database.php
-│   │   └── Router.php
-│   ├── models/
-│   │   ├── Model.php
-│   │   └── products/
-│   │       └── ProductModel.php
-│   ├── routes/
-│   │   └── web.php
-│   └── views/
-│       ├── layouts/
-│       └── products/
-│           ├── create.php
-│           ├── edit.php
-│           ├── home.php
-│           └── list.php
-├── database/
-│   └── dump.sql
-├── public/
-│   ├── index.php
-│   └── assets/
-├── vendor/
-├── bootstrap.php
-├── composer.json
-├── config.php
-└── ReadMe.md
-```
-
-## Contribuição
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
-
-## Autor
-
-Desenvolvido por [dev.vinicius](https://github.com/raposonaumpegue).
+MIT

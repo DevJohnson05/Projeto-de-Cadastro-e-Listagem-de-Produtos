@@ -26,10 +26,10 @@ CREATE TABLE `produtos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `creat_at` datetime DEFAULT NULL,
-  `quantidade` int DEFAULT NULL,
-  `un_medida` varchar(10) DEFAULT NULL,
-  `preco` decimal(10,2) NOT NULL,
+  `quantidade` decimal(10,2) DEFAULT NULL,
+  `un_medida` enum('KG','UN','PCT','FD','CX') DEFAULT NULL,
   `cod_produto` varchar(100) NOT NULL,
+  `data_valid` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cod_produto` (`cod_produto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -41,7 +41,9 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (1,'Arroz ',NULL,NULL,'un',4.00,'001'),(2,'Feijao Carioca Kicaldo',NULL,NULL,'un',8.00,'002');
+INSERT INTO `produtos` (id, nome, creat_at, quantidade, un_medida, cod_produto, data_valid) VALUES
+(1, 'Arroz', NULL, 4.00, 'UN', '001', NULL),
+(2, 'Feijao Carioca Kicaldo', NULL, 8.00, 'UN', '002', NULL);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

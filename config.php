@@ -8,6 +8,4 @@
             'username' => 'estudante',
             'password' => '2467',
         ],
-    ]
-
-?>
+    ];

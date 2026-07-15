@@ -1,0 +1,93 @@
+{% extends "master.html" %}
+
+{% block content %}
+    <main class="container" style="margin-top: 80px; margin-bottom: 60px;">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card shadow border-0">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Editar Produto</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <form action="/update-product" method="post" class="needs-validation" novalidate>
+                            <input type="hidden" name="id" value="{{ product.id }}">
+
+                            <div class="mb-3">
+                                <label for="nome" class="form-label fw-semibold">
+                                    <i class="bi bi-box-seam me-1 text-primary"></i>Nome do Produto
+                                </label>
+                                <input type="text" class="form-control" id="nome" name="nome"
+                                       value="{{ product.nome }}" placeholder="Ex: Arroz Tipo 1" required>
+                                <div class="invalid-feedback">Informe o nome do produto.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cod_produto" class="form-label fw-semibold">
+                                    <i class="bi bi-upc-scan me-1 text-primary"></i>Código do Produto
+                                </label>
+                                <input type="text" class="form-control" id="cod_produto" name="cod_produto"
+                                       value="{{ product.cod_produto }}" placeholder="Ex: ARZ-001" required>
+                                <div class="invalid-feedback">Informe o código do produto.</div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                    <label for="quantidade" class="form-label fw-semibold">
+                                        <i class="bi bi-calculator me-1 text-primary"></i>Quantidade
+                                    </label>
+                                    <input type="number" step="0.01" min="0" class="form-control" id="quantidade"
+                                           name="quantidade" value="{{ product.quantidade }}" placeholder="0.00" required>
+                                    <div class="invalid-feedback">Informe a quantidade.</div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="un_medida" class="form-label fw-semibold">
+                                        <i class="bi bi-rulers me-1 text-primary"></i>Unidade de Medida
+                                    </label>
+                                    <select id="un_medida" name="un_medida" class="form-select" required>
+                                        <option value="" disabled {% if not product.un_medida %}selected{% endif %}>Selecione...</option>
+                                        <option value="CX" {% if product.un_medida == 'CX' %}selected{% endif %}>CX</option>
+                                        <option value="PCT" {% if product.un_medida == 'PCT' %}selected{% endif %}>PCT</option>
+                                        <option value="FD" {% if product.un_medida == 'FD' %}selected{% endif %}>FD</option>
+                                        <option value="UN" {% if product.un_medida == 'UN' %}selected{% endif %}>UN</option>
+                                        <option value="KG" {% if product.un_medida == 'KG' %}selected{% endif %}>KG</option>
+                                    </select>
+                                    <div class="invalid-feedback">Selecione a unidade de medida.</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="data_valid" class="form-label fw-semibold">
+                                    <i class="bi bi-calendar-event me-1 text-primary"></i>Data de Validade
+                                </label>
+                                <input type="date" class="form-control" id="data_valid" name="data_valid"
+                                       value="{{ product.data_valid }}">
+                                <div class="invalid-feedback">Informe a data de validade.</div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="d-flex gap-2 justify-content-end">
+                                <a href="/list-products" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-circle me-1"></i>Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-circle me-1"></i>Salvar Alterações
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/assets/js/product/product-form.js"></script>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!validateProductForm(this, { requireDate: false })) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+    </script>
+{% endblock %}

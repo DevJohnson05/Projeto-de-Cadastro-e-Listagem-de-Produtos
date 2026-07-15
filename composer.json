@@ -5,7 +5,6 @@
             "app\\": "app/"
         },
         "files": [
-            "app/functions/Dump.php",
             "app/helpers/config.php"
         ]
     },

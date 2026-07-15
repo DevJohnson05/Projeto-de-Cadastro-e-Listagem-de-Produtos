@@ -6,6 +6,11 @@ services:
     container_name: php-fpm
     environment:
       MYSQL_HOST: mysql
+      DB_HOST: mysql
+      DB_USER: estudante
+      DB_PASSWORD: "2467"
+      DB_NAME: sistemaDeCadastroElistagem
+      DB_PORT: 3306
     volumes:
       - .:/var/www/html
     networks:
